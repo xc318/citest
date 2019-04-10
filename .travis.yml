@@ -1,21 +1,23 @@
 sudo: required
 language: go
 services:
-  - docker
+- docker
 go:
-  - 1.11
+- 1.11
 go_import_path: citest
 before_install:
-  - chmod +x release
-  - chmod +x build
+- openssl aes-256-cbc -K $encrypted_b8a7b184d8e7_key -iv $encrypted_b8a7b184d8e7_iv
+  -in id_rsa_qy.enc -out ~\/.ssh/id_rsa_qy -d
+- chmod +x release
+- chmod +x build
 install:
-  - ./release
+- "./release"
 script:
-  - docker build --rm -t mybumbelbee/citest .
+- docker build --rm -t mybumbelbee/citest .
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker push mybumbelbee/citest;
-    else echo $TRAVIS_BRANCH; docker tag mybumbelbee/citest mybumbelbee/citest:$TRAVIS_BRANCH;
-    docker push mybumbelbee/citest:$TRAVIS_BRANCH;
-    fi
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  docker push mybumbelbee/citest; else echo $TRAVIS_BRANCH; docker tag mybumbelbee/citest
+  mybumbelbee/citest:$TRAVIS_BRANCH; docker push mybumbelbee/citest:$TRAVIS_BRANCH;
+  fi
+- ssh root@139.198.12.99 -p 16022 docker run -d -p 8001 mybumbelbee/citest
