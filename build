@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+OUTPUT=${1:-bin/citest}
+echo "Building citest ..."
+mkdir -p bin
+
+
+go build -o $OUTPUT/citest main.go

@@ -1,0 +1,21 @@
+sudo: required
+language: go
+services:
+  - docker
+go:
+  - 1.11
+go_import_path: citest
+before_install:
+  - chmod +x release
+  - chmod +x build
+install:
+  - ./release
+script:
+  - docker build --rm -t mybumbelbee/citest .
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker push mybumbelbee/citest;
+    else echo $TRAVIS_BRANCH; docker tag mybumbelbee/citest mybumbelbee/citest:$TRAVIS_BRANCH;
+    docker push mybumbelbee/citest:$TRAVIS_BRANCH;
+    fi
