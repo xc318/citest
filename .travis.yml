@@ -6,7 +6,7 @@ go:
 - 1.11
 go_import_path: citest
 before_install:
-- openssl aes-256-cbc -K $encrypted_b8a7b184d8e7_key -iv $encrypted_b8a7b184d8e7_iv
+- openssl aes-256-cbc -K $encrypted_b8a7b184d8e7_key -iv $encrypted_b8a7b184d8e7_key
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod +x release
 - chmod +x build
