@@ -10,6 +10,7 @@ before_install:
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod +x release
 - chmod +x build
+- chmod 600 ~/.ssh/id_rsa
 addons:
     ssh_known_hosts: 139.198.12.99
 install:
